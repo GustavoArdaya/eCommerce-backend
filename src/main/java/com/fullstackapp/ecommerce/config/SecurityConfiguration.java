@@ -15,13 +15,13 @@ import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 public class SecurityConfiguration {
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         // protect endpoint /api/orders
-        http.authorizeHttpRequests(requests ->
-                requests.requestMatchers("/api/orders/**")
-                        .authenticated()
-                        .anyRequest().permitAll())
+        http.authorizeHttpRequests(configurer ->
+                        configurer
+                                .requestMatchers("/api/orders/**")
+                                .authenticated().anyRequest().permitAll())
                 .oauth2ResourceServer((oauth2) -> oauth2
                         .jwt(Customizer.withDefaults()));
 
@@ -37,6 +37,7 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
-
 }
+
+
+
